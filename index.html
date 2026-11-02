@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luísa Geovanna — Nutricionista</title>
+  <meta name="description" content="Cuidado nutricional individualizado para você alcançar mais saúde, equilíbrio e qualidade de vida.">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50:  '#fff8f1',
+              100: '#fdeee4',
+              200: '#fad6bc',
+              300: '#f8b067',
+              400: '#dd953f',
+              500: '#be7f35',
+              600: '#a06b2b',
+              700: '#855822',
+              800: '#6d471a',
+              900: '#4e3210',
+              950: '#2c1a06',
+            },
+            wa: '#25d366',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%':   { opacity: '0', transform: 'translateY(24px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%':   { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+          },
+          animation: {
+            'fade-in-up':  'fadeInUp 0.7s ease both',
+            'fade-in':     'fadeIn 0.6s ease both',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; }
+
+    /* Accordion transition */
+    .accordion-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .accordion-content.open {
+      grid-template-rows: 1fr;
+    }
+    .accordion-inner {
+      overflow: hidden;
+    }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    #mobile-menu.open {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    /* Chevron rotation */
+    .chevron-icon {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .chevron-icon.rotated {
+      transform: rotate(180deg);
+    }
+
+    /* Section fade-in on scroll */
+    .section-animate {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .section-animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .stagger-children > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .stagger-children.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+    .stagger-children.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    .stagger-children.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+    .stagger-children.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+    .stagger-children.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+  </style>
+</head>
+
+<body class="font-sans bg-white text-brand-900 antialiased">
+
+  <!-- ===================== HEADER ===================== -->
+  <header id="header" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/95 border-b border-brand-200 transition-shadow duration-300">
+    <div class="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="#inicio" class="flex items-center gap-2 group">
+        <div class="bg-brand-700 w-8 h-8 rounded-full flex items-center justify-center shadow-sm group-hover:bg-brand-800 transition-colors duration-200">
+          <img src="assets/icon-logo.svg" alt="Logo" class="w-4 h-4" />
+        </div>
+        <span class="font-semibold text-brand-900 text-[16px] tracking-tight whitespace-nowrap">Luísa Geovanna Nutricionista</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="#inicio"   class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Início</a>
+        <a href="#sobre"    class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Sobre</a>
+        <a href="#servicos" class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Serviços</a>
+        <a href="#faq"      class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Dúvidas</a>
+        <a href="#contato"  class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Contato</a>
+      </nav>
+
+      <!-- CTA Button -->
+      <a href="#contato" class="hidden md:inline-flex items-center gap-2 bg-brand-700 text-white text-sm font-semibold px-[18px] py-[10px] rounded-lg shadow-sm hover:bg-brand-800 hover:shadow-md active:scale-[0.98] transition-all duration-200">
+        Agendar Consulta
+      </a>
+
+      <!-- Mobile Hamburger -->
+      <button id="hamburger" class="md:hidden p-2 text-brand-800 hover:text-brand-700 transition-colors" aria-label="Abrir menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="ham-open"   stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          <path id="ham-close"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" class="hidden"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-white border-t border-brand-100">
+      <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
+        <a href="#inicio"   class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Início</a>
+        <a href="#sobre"    class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Sobre</a>
+        <a href="#servicos" class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Serviços</a>
+        <a href="#faq"      class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Dúvidas</a>
+        <a href="#contato"  class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Contato</a>
+        <a href="#contato"  class="mt-2 inline-flex items-center justify-center gap-2 bg-brand-700 text-white text-sm font-semibold px-4 py-3 rounded-lg hover:bg-brand-800 transition-colors" onclick="closeMobileMenu()">Agendar Consulta</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ===================== HERO ===================== -->
+  <section id="inicio" class="pt-[72px] bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-24 flex flex-col lg:flex-row items-center gap-16">
+
+      <!-- Text Content -->
+      <div class="flex-1 max-w-xl section-animate">
+        <h1 class="font-extrabold text-[3.25rem] leading-[1.1] tracking-tight text-brand-900 mb-6">
+          Nutrição que transforma
+          <span class="text-brand-700"> sua rotina</span>
+        </h1>
+        <p class="text-brand-800 text-lg leading-relaxed mb-8">
+          Cuidado nutricional individualizado para você alcançar mais saúde, equilíbrio e qualidade de vida.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap gap-4 mb-8">
+          <a href="https://wa.me/5562992717766" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2.5 bg-wa text-white font-semibold text-base px-8 py-4 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all duration-200">
+            <img src="assets/icon-whatsapp.svg" alt="" class="w-[18px] h-[18px]" />
+            Fale comigo no WhatsApp
+          </a>
+          <a href="#servicos"
+             class="inline-flex items-center font-semibold text-base text-brand-700 px-8 py-4 underline underline-offset-4 hover:text-brand-800 transition-colors duration-200">
+            Ver serviços
+          </a>
+        </div>
+
+        <!-- Social Proof Stats -->
+        <div class="border-t border-brand-200 pt-5 flex flex-wrap items-center gap-6">
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xl text-brand-900">+200</span>
+            <span class="text-xs text-brand-600 leading-tight">Pacientes atendidos</span>
+          </div>
+          <div class="w-px h-8 bg-brand-200"></div>
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xl text-brand-900">3 anos</span>
+            <span class="text-xs text-brand-600 leading-tight">De experiência</span>
+          </div>
+          <div class="w-px h-8 bg-brand-200"></div>
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xl text-brand-900">Online</span>
+            <span class="text-xs text-brand-600 leading-tight">e Presencial</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Photo -->
+      <div class="flex-shrink-0 flex justify-center section-animate" style="animation-delay:0.15s">
+        <div class="relative">
+          <!-- Decorative bg blob -->
+          <div class="absolute -inset-4 bg-gradient-to-br from-brand-100 to-brand-200 rounded-[72px] -z-10"></div>
+          <div class="border-4 border-brand-800 rounded-[64px] overflow-hidden shadow-2xl w-[340px] lg:w-[372px] aspect-[372/558]">
+            <img src="assets/hero-photo.png" alt="Luísa Geovanna, Nutricionista" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================== SOBRE ===================== -->
+  <section id="sobre" class="bg-brand-100 py-24">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+
+      <!-- Sobre Photo -->
+      <div class="flex-shrink-0 flex justify-center section-animate">
+        <div class="relative">
+          <div class="absolute -inset-4 bg-gradient-to-br from-brand-200 to-brand-300/40 rounded-[72px] -z-10"></div>
+          <div class="border-4 border-brand-800 rounded-[64px] overflow-hidden shadow-xl w-[280px] lg:w-[320px] aspect-[320/480]">
+            <img src="assets/sobre-photo.png" alt="Luísa Geovanna" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Sobre Content -->
+      <div class="flex-1 max-w-xl section-animate" style="animation-delay:0.1s">
+        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">Sobre mim</p>
+        <h2 class="font-bold text-[2.375rem] leading-[1.2] text-brand-900 mb-5">
+          Cuidado com base em ciência e escuta
+        </h2>
+        <p class="text-brand-800 text-lg leading-relaxed mb-4">
+          Sou nutricionista formada pela Unievangélica, com 2 anos de experiência em âmbito hospitalar. Acredito que uma boa alimentação vai além das restrições: é sobre entender seu corpo, sua rotina e seus objetivos.
+        </p>
+        <p class="text-brand-800 text-lg leading-relaxed mb-8">
+          Atendo de forma humanizada, criando planos alimentares personalizados e realistas para cada paciente.
+        </p>
+
+        <!-- Credentials -->
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center gap-3">
+            <span class="flex-shrink-0 bg-brand-300 w-5 h-5 rounded-full flex items-center justify-center">
+              <img src="assets/icon-check.svg" alt="" class="w-2.5 h-2.5" />
+            </span>
+            <p class="text-brand-800 text-sm leading-5">CRN: 25149 — Conselho Regional de Nutrição</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="flex-shrink-0 bg-brand-300 w-5 h-5 rounded-full flex items-center justify-center">
+              <img src="assets/icon-check.svg" alt="" class="w-2.5 h-2.5" />
+            </span>
+            <p class="text-brand-800 text-sm leading-5">Atendimento online e presencial disponível</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================== SERVIÇOS ===================== -->
+  <section id="servicos" class="bg-white py-24">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Section Header -->
+      <div class="mb-10 section-animate">
+        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">O que ofereço</p>
+        <h2 class="font-bold text-[2.375rem] leading-[1.2] text-brand-900 mb-3">Serviços pensados para você</h2>
+        <p class="text-brand-700 text-base leading-relaxed">Cada atendimento é adaptado à sua realidade e necessidades.</p>
+      </div>
+
+      <!-- Services List -->
+      <div class="stagger-children">
+
+        <!-- Serviço 01 -->
+        <div class="border-t border-brand-200 py-8 flex flex-col sm:flex-row gap-8 items-start group hover:bg-brand-50 -mx-6 px-6 rounded-xl transition-colors duration-200">
+          <div class="flex flex-col gap-1.5 sm:w-64 flex-shrink-0">
+            <span class="text-xs font-semibold tracking-[0.08em] text-brand-700">01</span>
+            <h3 class="font-bold text-2xl text-brand-900 leading-tight">Consulta Individual</h3>
+          </div>
+          <div class="flex-1 sm:max-w-sm">
+            <p class="text-brand-700 text-base leading-relaxed">
+              Avaliação completa do seu histórico alimentar, exames e objetivos para criar um plano nutricional totalmente personalizado.
+            </p>
+          </div>
+          <div class="flex-1 sm:max-w-xs">
+            <p class="text-xs font-semibold text-brand-900 mb-1.5 uppercase tracking-wide">Benefício</p>
+            <p class="text-brand-800 text-base leading-relaxed">
+              Um plano nutricional feito para você, com metas claras e ações práticas.
+            </p>
+          </div>
+        </div>
+
+        <!-- Serviço 02 -->
+        <div class="border-t border-brand-200 py-8 flex flex-col sm:flex-row gap-8 items-start group hover:bg-brand-50 -mx-6 px-6 rounded-xl transition-colors duration-200">
+          <div class="flex flex-col gap-1.5 sm:w-64 flex-shrink-0">
+            <span class="text-xs font-semibold tracking-[0.08em] text-brand-700">02</span>
+            <h3 class="font-bold text-2xl text-brand-900 leading-tight">Acompanhamento Nutricional</h3>
+          </div>
+          <div class="flex-1 sm:max-w-sm">
+            <p class="text-brand-700 text-base leading-relaxed">
+              Retornos periódicos para ajustar o plano alimentar conforme sua evolução, garantindo resultados duradouros.
+            </p>
+          </div>
+          <div class="flex-1 sm:max-w-xs">
+            <p class="text-xs font-semibold text-brand-900 mb-1.5 uppercase tracking-wide">Benefício</p>
+            <p class="text-brand-800 text-base leading-relaxed">
+              Acompanhamento contínuo para manter o foco e ajustar o plano conforme você avança.
+            </p>
+          </div>
+        </div>
+
+        <!-- Serviço 03 -->
+        <div class="border-t border-b border-brand-200 py-8 flex flex-col sm:flex-row gap-8 items-start group hover:bg-brand-50 -mx-6 px-6 rounded-xl transition-colors duration-200">
+          <div class="flex flex-col gap-1.5 sm:w-64 flex-shrink-0">
+            <span class="text-xs font-semibold tracking-[0.08em] text-brand-700">03</span>
+            <h3 class="font-bold text-2xl text-brand-900 leading-tight">Nutrição Esportiva</h3>
+          </div>
+          <div class="flex-1 sm:max-w-sm">
+            <p class="text-brand-700 text-base leading-relaxed">
+              Estratégias nutricionais para melhorar seu desempenho, recuperação muscular e composição corporal.
+            </p>
+          </div>
+          <div class="flex-1 sm:max-w-xs">
+            <p class="text-xs font-semibold text-brand-900 mb-1.5 uppercase tracking-wide">Benefício</p>
+            <p class="text-brand-800 text-base leading-relaxed">
+              Alimentação estratégica para treino, recuperação e performance sustentável.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FAQ ===================== -->
+  <section id="faq" class="bg-gradient-to-b from-brand-100 to-white py-24">
+    <div class="max-w-3xl mx-auto px-6">
+
+      <!-- FAQ Header -->
+      <div class="text-center mb-12 section-animate">
+        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">Dúvidas Frequentes</p>
+        <h2 class="font-bold text-[2.375rem] leading-[1.2] text-brand-900 mb-4">
+          Perguntas & Respostas
+        </h2>
+        <p class="text-brand-700 text-base leading-relaxed max-w-lg mx-auto">
+          Tudo o que você precisa saber antes de iniciar seu acompanhamento nutricional.
+        </p>
+      </div>
+
+      <!-- Accordion FAQ -->
+      <div class="flex flex-col gap-3 stagger-children" id="faq-accordion">
+
+        <!-- Item 1 -->
+        <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <button
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            onclick="toggleFaq(this)"
+            aria-expanded="false"
+          >
+            <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
+              Como funciona a consulta e o planejamento nutricional?
+            </span>
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+              <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <div class="px-6 pb-5 pt-0">
+                <div class="w-full h-px bg-brand-100 mb-4"></div>
+                <p class="text-brand-800 text-sm leading-relaxed">
+                  O atendimento é 100% individualizado. Na primeira consulta, avaliamos sua rotina, exames laboratoriais, histórico de saúde, preferências alimentares e objetivos. Com base nisso, monto uma estratégia prática e adaptada ao seu dia a dia, sem restrições desnecessárias ou fórmulas prontas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <button
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            onclick="toggleFaq(this)"
+            aria-expanded="false"
+          >
+            <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
+              Vou precisar passar fome ou cortar tudo o que gosto?
+            </span>
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+              <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <div class="px-6 pb-5 pt-0">
+                <div class="w-full h-px bg-brand-100 mb-4"></div>
+                <p class="text-brand-800 text-sm leading-relaxed">
+                  De jeito nenhum! O objetivo é construir um plano sustentável a longo prazo. Trabalhamos com flexibilidade, encaixando os alimentos que você ama dentro da sua estratégia para que você alcance seus resultados sem sofrimento ou efeito sanfona.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <button
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            onclick="toggleFaq(this)"
+            aria-expanded="false"
+          >
+            <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
+              Como funciona o suporte entre as consultas?
+            </span>
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+              <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <div class="px-6 pb-5 pt-0">
+                <div class="w-full h-px bg-brand-100 mb-4"></div>
+                <p class="text-brand-800 text-sm leading-relaxed">
+                  Você não estará sozinho(a) durante o processo. Ofereço suporte direto para tirar dúvidas sobre substituições de alimentos, ajustes na rotina e orientações diárias para garantir que você se mantenha firme no objetivo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <button
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            onclick="toggleFaq(this)"
+            aria-expanded="false"
+          >
+            <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
+              O atendimento é apenas presencial ou online também?
+            </span>
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+              <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <div class="px-6 pb-5 pt-0">
+                <div class="w-full h-px bg-brand-100 mb-4"></div>
+                <p class="text-brand-800 text-sm leading-relaxed">
+                  Realizo tanto atendimentos presenciais (em Anápolis, GO) quanto consultas online. Ambas as modalidades contam com a mesma qualidade, análise detalhada de exames, entrega de plano alimentar e suporte completo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <button
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            onclick="toggleFaq(this)"
+            aria-expanded="false"
+          >
+            <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
+              Em quanto tempo consigo ver os primeiros resultados?
+            </span>
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+              <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <div class="px-6 pb-5 pt-0">
+                <div class="w-full h-px bg-brand-100 mb-4"></div>
+                <p class="text-brand-800 text-sm leading-relaxed">
+                  Os primeiros resultados costumam aparecer logo nas primeiras semanas, como melhora na disposição, redução do inchaço e melhor digestão. Mudanças de composição corporal mais sólidas variam conforme o metabolismo e a adesão individual ao plano.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <button
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            onclick="toggleFaq(this)"
+            aria-expanded="false"
+          >
+            <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
+              Você trabalha com nutrição esportiva para atletas?
+            </span>
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+              <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <div class="px-6 pb-5 pt-0">
+                <div class="w-full h-px bg-brand-100 mb-4"></div>
+                <p class="text-brand-800 text-sm leading-relaxed">
+                  Sim! Ofereço acompanhamento especializado em nutrição esportiva, com estratégias voltadas para melhorar seu desempenho, otimizar a recuperação muscular e promover uma composição corporal saudável — seja você um atleta ou praticante de atividade física regular.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FAQ CTA -->
+      <div class="mt-10 text-center section-animate">
+        <p class="text-brand-700 text-sm mb-4">Ainda tem dúvidas? Fala comigo direto no WhatsApp!</p>
+        <a href="https://wa.me/5562992717766" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2.5 bg-wa text-white font-semibold text-sm px-6 py-3.5 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all duration-200">
+          <img src="assets/icon-whatsapp.svg" alt="" class="w-4 h-4" />
+          Enviar mensagem
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================== CONTATO ===================== -->
+  <section id="contato" class="bg-brand-100 py-24">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-start">
+
+      <!-- Contact Info -->
+      <div class="flex-1 max-w-sm section-animate">
+        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">Entre em contato</p>
+        <h2 class="font-bold text-[2.25rem] leading-[1.2] text-brand-900 mb-4">
+          Pronto para começar sua jornada?
+        </h2>
+        <p class="text-brand-800 text-base leading-relaxed mb-8">
+          Preencha o formulário e você será redirecionado ao WhatsApp com sua mensagem pronta. Respondo em até 24 horas.
+        </p>
+
+        <!-- Contact Details -->
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center">
+              <img src="assets/icon-phone.svg" alt="" class="w-4 h-4" />
+            </div>
+            <span class="text-brand-800 text-sm">(62) 99271-7766</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center">
+              <img src="assets/icon-email.svg" alt="" class="w-4 h-4" />
+            </div>
+            <span class="text-brand-800 text-sm">nutriluisageovanna@icloud.com</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center">
+              <img src="assets/icon-location.svg" alt="" class="w-4 h-4" />
+            </div>
+            <span class="text-brand-800 text-sm">Anápolis, GO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="flex-1 max-w-lg w-full section-animate" style="animation-delay:0.1s">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-brand-100">
+          <form id="contact-form" novalidate>
+
+            <div class="flex flex-col gap-5">
+              <!-- Nome -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-brand-800" for="nome">
+                  Nome <span class="text-brand-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="nome"
+                  placeholder="Seu nome completo"
+                  required
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400"
+                />
+              </div>
+
+              <!-- Telefone -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-brand-800" for="telefone">
+                  Telefone / WhatsApp <span class="text-brand-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="telefone"
+                  name="telefone"
+                  placeholder="(00) 00000-0000"
+                  required
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400"
+                />
+              </div>
+
+              <!-- Email -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-brand-800" for="email">
+                  E-mail <span class="text-brand-400 text-xs font-normal">(opcional)</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="seu@email.com"
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400"
+                />
+              </div>
+
+              <!-- Mensagem -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-sm font-medium text-brand-800" for="mensagem">Mensagem</label>
+                <textarea
+                  id="mensagem"
+                  name="mensagem"
+                  rows="4"
+                  placeholder="Conte um pouco sobre seus objetivos..."
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400 resize-none"
+                ></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                type="submit"
+                class="w-full flex items-center justify-center gap-2.5 bg-wa text-white font-semibold text-base py-4 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all duration-200 mt-1"
+              >
+                <img src="assets/icon-whatsapp.svg" alt="" class="w-5 h-5" />
+                Enviar via WhatsApp
+              </button>
+
+              <p class="text-brand-500 text-xs text-center">
+                Ao enviar, você será redirecionado ao WhatsApp com sua mensagem pronta.
+              </p>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-brand-950 py-16">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Footer Content -->
+      <div class="flex flex-wrap gap-10 justify-between mb-12">
+
+        <!-- Brand Column -->
+        <div class="flex flex-col gap-4 min-w-[200px]">
+          <div class="flex items-center gap-2">
+            <div class="bg-brand-700 w-8 h-8 rounded-full flex items-center justify-center">
+              <img src="assets/icon-logo2.svg" alt="" class="w-3.5 h-3.5" />
+            </div>
+            <span class="font-semibold text-white text-sm">Luísa Geovanna Nutricionista</span>
+          </div>
+          <p class="text-brand-400 text-sm leading-relaxed max-w-[220px]">
+            Nutrição personalizada para uma vida mais saudável e equilibrada.
+          </p>
+          <!-- Social Links -->
+          <div class="flex items-center gap-3 mt-1">
+            <a href="#" aria-label="Instagram" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+              <img src="assets/icon-instagram.svg" alt="" class="w-[18px] h-[18px]" />
+            </a>
+            <a href="#" aria-label="Facebook" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+              <img src="assets/icon-facebook.svg" alt="" class="w-[18px] h-[18px]" />
+            </a>
+            <a href="#" aria-label="LinkedIn" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+              <img src="assets/icon-linkedin.svg" alt="" class="w-[18px] h-[18px]" />
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation Column -->
+        <div class="flex flex-col gap-3">
+          <p class="text-white font-semibold text-sm mb-1">Navegação</p>
+          <a href="#inicio"   class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Início</a>
+          <a href="#sobre"    class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Sobre</a>
+          <a href="#servicos" class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Serviços</a>
+          <a href="#faq"      class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Dúvidas</a>
+          <a href="#contato"  class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Contato</a>
+        </div>
+
+        <!-- Contact Column -->
+        <div class="flex flex-col gap-3">
+          <p class="text-white font-semibold text-sm mb-1">Contato</p>
+          <div class="flex items-center gap-2">
+            <img src="assets/icon-footer-phone.svg" alt="" class="w-3.5 h-3.5 opacity-60" />
+            <span class="text-brand-400 text-sm">(62) 99271-7766</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="assets/icon-footer-email.svg" alt="" class="w-3.5 h-3.5 opacity-60" />
+            <span class="text-brand-400 text-sm">nutriluisageovanna@icloud.com</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="assets/icon-crn.svg" alt="" class="w-3.5 h-3.5 opacity-60" />
+            <span class="text-brand-400 text-sm">CRN: 25149</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="border-t border-brand-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-brand-500 text-xs">© 2026 Luísa Geovanna. Todos os direitos reservados.</p>
+        <p class="text-brand-600 text-xs">Nutrição personalizada com cuidado e ciência.</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ===================== FLOATING WHATSAPP ===================== -->
+  <a href="https://wa.me/5562992717766" target="_blank" rel="noopener" aria-label="WhatsApp"
+     class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-wa rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(37,211,102,0.35)] hover:shadow-[0_14px_28px_rgba(37,211,102,0.45)] hover:scale-105 active:scale-95 transition-all duration-200">
+    <img src="assets/icon-whatsapp-float.svg" alt="WhatsApp" class="w-7 h-7" />
+  </a>
+
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script>
+    /* ---- Mobile Menu ---- */
+    const hamburger    = document.getElementById('hamburger');
+    const mobileMenu   = document.getElementById('mobile-menu');
+    const hamOpen      = document.getElementById('ham-open');
+    const hamClose     = document.getElementById('ham-close');
+    let menuOpen = false;
+
+    hamburger.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      hamOpen.classList.toggle('hidden', menuOpen);
+      hamClose.classList.toggle('hidden', !menuOpen);
+    });
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      hamOpen.classList.remove('hidden');
+      hamClose.classList.add('hidden');
+    }
+
+    /* ---- Header shadow on scroll ---- */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('shadow-md', window.scrollY > 8);
+    }, { passive: true });
+
+
+    /* ---- FAQ Accordion ---- */
+    function toggleFaq(btn) {
+      const card    = btn.closest('div.overflow-hidden');
+      const content = card.querySelector('.accordion-content');
+      const chevron = btn.querySelector('.chevron-icon');
+      const isOpen  = content.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('#faq-accordion .accordion-content').forEach(c => c.classList.remove('open'));
+      document.querySelectorAll('#faq-accordion .chevron-icon').forEach(c => c.classList.remove('rotated'));
+      document.querySelectorAll('#faq-accordion button[aria-expanded]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+      // If it was closed, open it
+      if (!isOpen) {
+        content.classList.add('open');
+        chevron.classList.add('rotated');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+
+    /* ---- Scroll-triggered animations ---- */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.section-animate, .stagger-children').forEach(el => observer.observe(el));
+
+    // Trigger hero immediately
+    setTimeout(() => {
+      document.querySelectorAll('#inicio .section-animate').forEach(el => el.classList.add('visible'));
+    }, 100);
+
+
+    /* ---- WhatsApp Form Submit ---- */
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome     = document.getElementById('nome').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const mensagem = document.getElementById('mensagem').value.trim();
+
+      if (!nome || !telefone) {
+        alert('Por favor, preencha nome e telefone.');
+        return;
+      }
+
+      const msg = `Olá, Luísa! Me chamo ${nome}${telefone ? ` e meu telefone é ${telefone}` : ''}.${mensagem ? ` ${mensagem}` : ' Gostaria de agendar uma consulta.'}`;
+      const url = `https://wa.me/5562992717766?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+
+
+    /* ---- Phone mask ---- */
+    document.getElementById('telefone').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '');
+      if (v.length <= 10) {
+        v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      } else {
+        v = v.replace(/^(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+      }
+      this.value = v;
+    });
+  </script>
+
+</body>
+</html>
