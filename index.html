@@ -6,10 +6,10 @@
   <title>Luísa Geovanna — Nutricionista</title>
   <meta name="description" content="Cuidado nutricional individualizado para você alcançar mais saúde, equilíbrio e qualidade de vida.">
 
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  <!-- Google Fonts: Plus Jakarta Sans + Cormorant Garamond -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,6 +20,7 @@
         extend: {
           fontFamily: {
             sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
           },
           colors: {
             brand: {
@@ -73,6 +74,19 @@
       overflow: hidden;
     }
 
+    /* Header scroll transparency */
+    #header {
+      transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.3s ease;
+    }
+    #header.scrolled-far {
+      background-color: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(16px);
+    }
+    #header.scrolled-mid {
+      background-color: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+    }
+
     /* Mobile menu */
     #mobile-menu {
       transition: max-height 0.3s ease, opacity 0.3s ease;
@@ -121,15 +135,13 @@
 <body class="font-sans bg-white text-brand-900 antialiased">
 
   <!-- ===================== HEADER ===================== -->
-  <header id="header" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/95 border-b border-brand-200 transition-shadow duration-300">
-    <div class="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
+  <header id="header" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/95 border-b border-brand-200/60 transition-all duration-400">
+    <div class="max-w-6xl mx-auto px-6 h-[80px] flex items-center justify-between">
 
-      <!-- Logo -->
-      <a href="#inicio" class="flex items-center gap-2 group">
-        <div class="bg-brand-700 w-8 h-8 rounded-full flex items-center justify-center shadow-sm group-hover:bg-brand-800 transition-colors duration-200">
-          <img src="assets/icon-logo.svg" alt="Logo" class="w-4 h-4" />
-        </div>
-        <span class="font-semibold text-brand-900 text-[16px] tracking-tight whitespace-nowrap">Luísa Geovanna Nutricionista</span>
+      <!-- Logo + Nome -->
+      <a href="#inicio" class="flex flex-col items-center gap-0.5 group select-none">
+        <img src="assets/lu-sa-geovanna-icon-color.svg" alt="Logo Luísa Geovanna" class="w-10 h-10 drop-shadow-sm group-hover:scale-105 transition-transform duration-200" />
+        <span class="font-serif font-semibold text-[13px] leading-none tracking-widest uppercase text-brand-700 whitespace-nowrap group-hover:text-brand-800 transition-colors duration-200">Luísa Geovanna</span>
       </a>
 
       <!-- Desktop Navigation -->
@@ -170,7 +182,7 @@
 
 
   <!-- ===================== HERO ===================== -->
-  <section id="inicio" class="pt-[72px] bg-white">
+  <section id="inicio" class="pt-[80px] bg-white">
     <div class="max-w-6xl mx-auto px-6 py-24 flex flex-col lg:flex-row items-center gap-16">
 
       <!-- Text Content -->
@@ -697,14 +709,14 @@
           </p>
           <!-- Social Links -->
           <div class="flex items-center gap-3 mt-1">
-            <a href="#" aria-label="Instagram" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+            <a href="https://instagram.com/luisageovanna.nutri" aria-label="Instagram" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
               <img src="assets/icon-instagram.svg" alt="" class="w-[18px] h-[18px]" />
             </a>
-            <a href="#" aria-label="Facebook" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
-              <img src="assets/icon-facebook.svg" alt="" class="w-[18px] h-[18px]" />
+            <a href="mailto:nutriluisageovanna@icloud.com" aria-label="E-mail" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+              <img src="assets/icon-email.svg" alt="" class="w-[18px] h-[18px]" />
             </a>
-            <a href="#" aria-label="LinkedIn" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
-              <img src="assets/icon-linkedin.svg" alt="" class="w-[18px] h-[18px]" />
+            <a href="tel:+5562992717766" aria-label="Telefone" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+              <img src="assets/icone-telefone.svg" alt="" class="w-[18px] h-[18px]" />
             </a>
           </div>
         </div>
@@ -778,10 +790,20 @@
       hamClose.classList.add('hidden');
     }
 
-    /* ---- Header shadow on scroll ---- */
+    /* ---- Header shadow on scroll + transparência progressiva ---- */
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      header.classList.toggle('shadow-md', window.scrollY > 8);
+      const y = window.scrollY;
+      header.classList.toggle('shadow-md', y > 8);
+      if (y > 320) {
+        header.classList.add('scrolled-far');
+        header.classList.remove('scrolled-mid');
+      } else if (y > 80) {
+        header.classList.add('scrolled-mid');
+        header.classList.remove('scrolled-far');
+      } else {
+        header.classList.remove('scrolled-mid', 'scrolled-far');
+      }
     }, { passive: true });
 
 
