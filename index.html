@@ -58,8 +58,20 @@
   </script>
 
   <style>
-    /* Smooth scrolling */
-    html { scroll-behavior: smooth; }
+    /* Browser surface craft: selection, caret, scroll-behavior */
+    ::selection {
+      background-color: #fad6bc;
+      color: #2c1a06;
+    }
+    html {
+      scroll-behavior: smooth;
+      caret-color: #855822;
+    }
+
+    /* Typography scale & fluid headers */
+    h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); line-height: 1.1; }
+    h2 { font-size: clamp(1.75rem, 3.5vw, 2.375rem); line-height: 1.2; }
+    h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.3; }
 
     /* Accordion transition */
     .accordion-content {
@@ -79,11 +91,11 @@
       transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.3s ease;
     }
     #header.scrolled-far {
-      background-color: rgba(255, 255, 255, 0.55);
+      background-color: rgba(255, 255, 255, 0.65);
       backdrop-filter: blur(16px);
     }
     #header.scrolled-mid {
-      background-color: rgba(255, 255, 255, 0.78);
+      background-color: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(12px);
     }
 
@@ -129,6 +141,67 @@
     .stagger-children.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
     .stagger-children.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
     .stagger-children.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+
+    /* Motion sensitivity (prefers-reduced-motion) */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .section-animate,
+      .stagger-children > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .accordion-content {
+        transition: none !important;
+      }
+      #mobile-menu {
+        transition: none !important;
+      }
+      .chevron-icon {
+        transition: none !important;
+      }
+    }
+
+    /* Landscape mobile adaptation (compact header on short screens) */
+    @media (max-height: 500px) and (orientation: landscape) {
+      #header > div {
+        height: 56px;
+      }
+      #inicio {
+        padding-top: 56px;
+      }
+    }
+
+    /* Print adaptation (clean document format for printing or PDF export) */
+    @media print {
+      #header,
+      #mobile-menu,
+      a[aria-label="WhatsApp"],
+      #form-error,
+      button[type="submit"] {
+        display: none !important;
+      }
+      body {
+        background: #fff !important;
+        color: #111 !important;
+      }
+      #inicio {
+        padding-top: 0 !important;
+      }
+      section {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        page-break-inside: avoid;
+      }
+      .accordion-content {
+        grid-template-rows: 1fr !important;
+      }
+      .accordion-inner {
+        overflow: visible !important;
+      }
+    }
   </style>
 </head>
 
@@ -140,27 +213,26 @@
 
       <!-- Logo + Nome -->
       <a href="#inicio" class="flex flex-col items-center gap-0.5 group select-none">
-        <img src="assets/lu-sa-geovanna-icon-color.svg" alt="Logo Luísa Geovanna" class="w-10 h-10 drop-shadow-sm group-hover:scale-105 transition-transform duration-200" />
-        <span class="font-serif font-semibold text-[13px] leading-none tracking-widest uppercase text-brand-700 whitespace-nowrap group-hover:text-brand-800 transition-colors duration-200">Luísa Geovanna</span>
+        <img src="assets/Logo-Horizontal.svg" class="w-40 h-40 drop-shadow-sm group-hover:scale-105 transition-transform duration-200" />
       </a>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center gap-6">
-        <a href="#inicio"   class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Início</a>
-        <a href="#sobre"    class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Sobre</a>
-        <a href="#servicos" class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Serviços</a>
-        <a href="#faq"      class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Dúvidas</a>
-        <a href="#contato"  class="text-sm font-medium text-brand-800 hover:text-brand-700 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Contato</a>
+      <nav class="hidden md:flex items-center gap-6" aria-label="Navegação principal">
+        <a href="#inicio"   class="text-sm font-medium text-brand-800 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded px-1 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-1 after:right-1 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Início</a>
+        <a href="#sobre"    class="text-sm font-medium text-brand-800 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded px-1 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-1 after:right-1 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Sobre</a>
+        <a href="#servicos" class="text-sm font-medium text-brand-800 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded px-1 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-1 after:right-1 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Serviços</a>
+        <a href="#faq"      class="text-sm font-medium text-brand-800 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded px-1 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-1 after:right-1 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Dúvidas</a>
+        <a href="#contato"  class="text-sm font-medium text-brand-800 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded px-1 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-1 after:right-1 after:h-[2px] after:bg-brand-700 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 pb-0.5">Contato</a>
       </nav>
 
       <!-- CTA Button -->
-      <a href="#contato" class="hidden md:inline-flex items-center gap-2 bg-brand-700 text-white text-sm font-semibold px-[18px] py-[10px] rounded-lg shadow-sm hover:bg-brand-800 hover:shadow-md active:scale-[0.98] transition-all duration-200">
+      <a href="#contato" class="hidden md:inline-flex items-center gap-2 bg-brand-700 text-white text-sm font-semibold px-[18px] py-[10px] rounded-lg shadow-sm hover:bg-brand-800 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 transition-all duration-200">
         Agendar Consulta
       </a>
 
       <!-- Mobile Hamburger -->
-      <button id="hamburger" class="md:hidden p-2 text-brand-800 hover:text-brand-700 transition-colors" aria-label="Abrir menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="hamburger" class="md:hidden w-11 h-11 flex items-center justify-center rounded-lg text-brand-800 hover:text-brand-700 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu de navegação">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path id="ham-open"   stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           <path id="ham-close"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" class="hidden"/>
         </svg>
@@ -169,13 +241,13 @@
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden bg-white border-t border-brand-100">
-      <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
-        <a href="#inicio"   class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Início</a>
-        <a href="#sobre"    class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Sobre</a>
-        <a href="#servicos" class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Serviços</a>
-        <a href="#faq"      class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Dúvidas</a>
-        <a href="#contato"  class="text-sm font-medium text-brand-800 py-2 hover:text-brand-700 transition-colors" onclick="closeMobileMenu()">Contato</a>
-        <a href="#contato"  class="mt-2 inline-flex items-center justify-center gap-2 bg-brand-700 text-white text-sm font-semibold px-4 py-3 rounded-lg hover:bg-brand-800 transition-colors" onclick="closeMobileMenu()">Agendar Consulta</a>
+      <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1" aria-label="Navegação móvel">
+        <a href="#inicio"   class="text-base font-medium text-brand-800 py-3 px-2 rounded-lg hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" onclick="closeMobileMenu()">Início</a>
+        <a href="#sobre"    class="text-base font-medium text-brand-800 py-3 px-2 rounded-lg hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" onclick="closeMobileMenu()">Sobre</a>
+        <a href="#servicos" class="text-base font-medium text-brand-800 py-3 px-2 rounded-lg hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" onclick="closeMobileMenu()">Serviços</a>
+        <a href="#faq"      class="text-base font-medium text-brand-800 py-3 px-2 rounded-lg hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" onclick="closeMobileMenu()">Dúvidas</a>
+        <a href="#contato"  class="text-base font-medium text-brand-800 py-3 px-2 rounded-lg hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" onclick="closeMobileMenu()">Contato</a>
+        <a href="#contato"  class="mt-3 inline-flex items-center justify-center gap-2 bg-brand-700 text-white text-base font-semibold px-4 py-3.5 rounded-xl hover:bg-brand-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 transition-colors" onclick="closeMobileMenu()">Agendar Consulta</a>
       </nav>
     </div>
   </header>
@@ -187,7 +259,7 @@
 
       <!-- Text Content -->
       <div class="flex-1 max-w-xl section-animate">
-        <h1 class="font-extrabold text-[3.25rem] leading-[1.1] tracking-tight text-brand-900 mb-6">
+        <h1 class="font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-brand-900 mb-6">
           Nutrição que transforma
           <span class="text-brand-700"> sua rotina</span>
         </h1>
@@ -196,14 +268,14 @@
         </p>
 
         <!-- CTA Buttons -->
-        <div class="flex flex-wrap gap-4 mb-8">
+        <div class="flex flex-col sm:flex-row flex-wrap gap-4 mb-8 w-full sm:w-auto">
           <a href="https://wa.me/5562992717766" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2.5 bg-wa text-white font-semibold text-base px-8 py-4 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all duration-200">
+             class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-wa text-white font-semibold text-base px-8 py-4 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wa focus-visible:ring-offset-2 transition-all duration-200">
             <img src="assets/icon-whatsapp.svg" alt="" class="w-[18px] h-[18px]" />
             Fale comigo no WhatsApp
           </a>
           <a href="#servicos"
-             class="inline-flex items-center font-semibold text-base text-brand-700 px-8 py-4 underline underline-offset-4 hover:text-brand-800 transition-colors duration-200">
+             class="w-full sm:w-auto inline-flex items-center justify-center font-semibold text-base text-brand-700 px-8 py-4 underline underline-offset-4 hover:text-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded transition-colors duration-200">
             Ver serviços
           </a>
         </div>
@@ -212,28 +284,28 @@
         <div class="border-t border-brand-200 pt-5 flex flex-wrap items-center gap-6">
           <div class="flex flex-col gap-0.5">
             <span class="font-bold text-xl text-brand-900">+200</span>
-            <span class="text-xs text-brand-600 leading-tight">Pacientes atendidos</span>
+            <span class="text-xs text-brand-700 font-medium leading-tight">Pacientes atendidos</span>
           </div>
-          <div class="w-px h-8 bg-brand-200"></div>
+          <div class="w-px h-8 bg-brand-200" aria-hidden="true"></div>
           <div class="flex flex-col gap-0.5">
             <span class="font-bold text-xl text-brand-900">3 anos</span>
-            <span class="text-xs text-brand-600 leading-tight">De experiência</span>
+            <span class="text-xs text-brand-700 font-medium leading-tight">De experiência</span>
           </div>
-          <div class="w-px h-8 bg-brand-200"></div>
+          <div class="w-px h-8 bg-brand-200" aria-hidden="true"></div>
           <div class="flex flex-col gap-0.5">
             <span class="font-bold text-xl text-brand-900">Online</span>
-            <span class="text-xs text-brand-600 leading-tight">e Presencial</span>
+            <span class="text-xs text-brand-700 font-medium leading-tight">e Presencial</span>
           </div>
         </div>
       </div>
 
       <!-- Hero Photo -->
-      <div class="flex-shrink-0 flex justify-center section-animate" style="animation-delay:0.15s">
-        <div class="relative">
+      <div class="flex-shrink-0 flex justify-center section-animate w-full lg:w-auto" style="animation-delay:0.15s">
+        <div class="relative w-full max-w-[340px] lg:max-w-[372px]">
           <!-- Decorative bg blob -->
-          <div class="absolute -inset-4 bg-gradient-to-br from-brand-100 to-brand-200 rounded-[72px] -z-10"></div>
-          <div class="border-4 border-brand-800 rounded-[64px] overflow-hidden shadow-2xl w-[340px] lg:w-[372px] aspect-[372/558]">
-            <img src="assets/hero-photo.png" alt="Luísa Geovanna, Nutricionista" class="w-full h-full object-cover" />
+          <div class="absolute -inset-4 bg-gradient-to-br from-brand-100 to-brand-200 rounded-[72px] -z-10" aria-hidden="true"></div>
+          <div class="border-4 border-brand-800 rounded-[64px] overflow-hidden shadow-2xl w-full aspect-[372/558]">
+            <img src="assets/hero-photo.png" alt="Luísa Geovanna, Nutricionista" class="w-full h-full object-cover" fetchpriority="high" width="372" height="558" />
           </div>
         </div>
       </div>
@@ -247,19 +319,19 @@
     <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
 
       <!-- Sobre Photo -->
-      <div class="flex-shrink-0 flex justify-center section-animate">
-        <div class="relative">
-          <div class="absolute -inset-4 bg-gradient-to-br from-brand-200 to-brand-300/40 rounded-[72px] -z-10"></div>
-          <div class="border-4 border-brand-800 rounded-[64px] overflow-hidden shadow-xl w-[280px] lg:w-[320px] aspect-[320/480]">
-            <img src="assets/sobre-photo.png" alt="Luísa Geovanna" class="w-full h-full object-cover" />
+      <div class="flex-shrink-0 flex justify-center section-animate w-full lg:w-auto">
+        <div class="relative w-full max-w-[280px] lg:max-w-[320px]">
+          <div class="absolute -inset-4 bg-gradient-to-br from-brand-200 to-brand-300/40 rounded-[72px] -z-10" aria-hidden="true"></div>
+          <div class="border-4 border-brand-800 rounded-[64px] overflow-hidden shadow-xl w-full aspect-[320/480]">
+            <img src="assets/sobre-photo.png" alt="Luísa Geovanna" class="w-full h-full object-cover" loading="lazy" decoding="async" width="320" height="480" />
           </div>
         </div>
       </div>
 
       <!-- Sobre Content -->
       <div class="flex-1 max-w-xl section-animate" style="animation-delay:0.1s">
-        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">Sobre mim</p>
-        <h2 class="font-bold text-[2.375rem] leading-[1.2] text-brand-900 mb-5">
+        <p class="text-xs font-bold tracking-[0.12em] uppercase text-brand-700 mb-3">Sobre mim</p>
+        <h2 class="font-bold text-3xl sm:text-4xl leading-[1.2] text-brand-900 mb-5">
           Cuidado com base em ciência e escuta
         </h2>
         <p class="text-brand-800 text-lg leading-relaxed mb-4">
@@ -272,13 +344,13 @@
         <!-- Credentials -->
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-3">
-            <span class="flex-shrink-0 bg-brand-300 w-5 h-5 rounded-full flex items-center justify-center">
+            <span class="flex-shrink-0 bg-brand-300 w-5 h-5 rounded-full flex items-center justify-center" aria-hidden="true">
               <img src="assets/icon-check.svg" alt="" class="w-2.5 h-2.5" />
             </span>
             <p class="text-brand-800 text-sm leading-5">CRN: 25149 — Conselho Regional de Nutrição</p>
           </div>
           <div class="flex items-center gap-3">
-            <span class="flex-shrink-0 bg-brand-300 w-5 h-5 rounded-full flex items-center justify-center">
+            <span class="flex-shrink-0 bg-brand-300 w-5 h-5 rounded-full flex items-center justify-center" aria-hidden="true">
               <img src="assets/icon-check.svg" alt="" class="w-2.5 h-2.5" />
             </span>
             <p class="text-brand-800 text-sm leading-5">Atendimento online e presencial disponível</p>
@@ -296,9 +368,9 @@
 
       <!-- Section Header -->
       <div class="mb-10 section-animate">
-        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">O que ofereço</p>
-        <h2 class="font-bold text-[2.375rem] leading-[1.2] text-brand-900 mb-3">Serviços pensados para você</h2>
-        <p class="text-brand-700 text-base leading-relaxed">Cada atendimento é adaptado à sua realidade e necessidades.</p>
+        <p class="text-xs font-bold tracking-[0.12em] uppercase text-brand-700 mb-3">O que ofereço</p>
+        <h2 class="font-bold text-3xl sm:text-4xl leading-[1.2] text-brand-900 mb-3">Serviços pensados para você</h2>
+        <p class="text-brand-800 text-base leading-relaxed">Cada atendimento é adaptado à sua realidade e necessidades.</p>
       </div>
 
       <!-- Services List -->
@@ -372,11 +444,11 @@
 
       <!-- FAQ Header -->
       <div class="text-center mb-12 section-animate">
-        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">Dúvidas Frequentes</p>
-        <h2 class="font-bold text-[2.375rem] leading-[1.2] text-brand-900 mb-4">
+        <p class="text-xs font-bold tracking-[0.12em] uppercase text-brand-700 mb-3">Dúvidas Frequentes</p>
+        <h2 class="font-bold text-3xl sm:text-4xl leading-[1.2] text-brand-900 mb-4">
           Perguntas & Respostas
         </h2>
-        <p class="text-brand-700 text-base leading-relaxed max-w-lg mx-auto">
+        <p class="text-brand-800 text-base leading-relaxed max-w-lg mx-auto">
           Tudo o que você precisa saber antes de iniciar seu acompanhamento nutricional.
         </p>
       </div>
@@ -387,20 +459,22 @@
         <!-- Item 1 -->
         <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
           <button
-            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            id="faq-btn-1"
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded-2xl group"
             onclick="toggleFaq(this)"
             aria-expanded="false"
+            aria-controls="faq-ans-1"
           >
             <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
               Como funciona a consulta e o planejamento nutricional?
             </span>
-            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200" aria-hidden="true">
               <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
               </svg>
             </span>
           </button>
-          <div class="accordion-content">
+          <div id="faq-ans-1" role="region" aria-labelledby="faq-btn-1" class="accordion-content">
             <div class="accordion-inner">
               <div class="px-6 pb-5 pt-0">
                 <div class="w-full h-px bg-brand-100 mb-4"></div>
@@ -415,20 +489,22 @@
         <!-- Item 2 -->
         <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
           <button
-            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            id="faq-btn-2"
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded-2xl group"
             onclick="toggleFaq(this)"
             aria-expanded="false"
+            aria-controls="faq-ans-2"
           >
             <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
               Vou precisar passar fome ou cortar tudo o que gosto?
             </span>
-            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200" aria-hidden="true">
               <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
               </svg>
             </span>
           </button>
-          <div class="accordion-content">
+          <div id="faq-ans-2" role="region" aria-labelledby="faq-btn-2" class="accordion-content">
             <div class="accordion-inner">
               <div class="px-6 pb-5 pt-0">
                 <div class="w-full h-px bg-brand-100 mb-4"></div>
@@ -443,20 +519,22 @@
         <!-- Item 3 -->
         <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
           <button
-            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            id="faq-btn-3"
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded-2xl group"
             onclick="toggleFaq(this)"
             aria-expanded="false"
+            aria-controls="faq-ans-3"
           >
             <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
               Como funciona o suporte entre as consultas?
             </span>
-            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200" aria-hidden="true">
               <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
               </svg>
             </span>
           </button>
-          <div class="accordion-content">
+          <div id="faq-ans-3" role="region" aria-labelledby="faq-btn-3" class="accordion-content">
             <div class="accordion-inner">
               <div class="px-6 pb-5 pt-0">
                 <div class="w-full h-px bg-brand-100 mb-4"></div>
@@ -471,20 +549,22 @@
         <!-- Item 4 -->
         <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
           <button
-            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            id="faq-btn-4"
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded-2xl group"
             onclick="toggleFaq(this)"
             aria-expanded="false"
+            aria-controls="faq-ans-4"
           >
             <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
               O atendimento é apenas presencial ou online também?
             </span>
-            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200" aria-hidden="true">
               <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
               </svg>
             </span>
           </button>
-          <div class="accordion-content">
+          <div id="faq-ans-4" role="region" aria-labelledby="faq-btn-4" class="accordion-content">
             <div class="accordion-inner">
               <div class="px-6 pb-5 pt-0">
                 <div class="w-full h-px bg-brand-100 mb-4"></div>
@@ -499,20 +579,22 @@
         <!-- Item 5 -->
         <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
           <button
-            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            id="faq-btn-5"
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded-2xl group"
             onclick="toggleFaq(this)"
             aria-expanded="false"
+            aria-controls="faq-ans-5"
           >
             <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
               Em quanto tempo consigo ver os primeiros resultados?
             </span>
-            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200" aria-hidden="true">
               <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
               </svg>
             </span>
           </button>
-          <div class="accordion-content">
+          <div id="faq-ans-5" role="region" aria-labelledby="faq-btn-5" class="accordion-content">
             <div class="accordion-inner">
               <div class="px-6 pb-5 pt-0">
                 <div class="w-full h-px bg-brand-100 mb-4"></div>
@@ -527,20 +609,22 @@
         <!-- Item 6 -->
         <div class="bg-white border border-brand-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
           <button
-            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 rounded-2xl group"
+            id="faq-btn-6"
+            class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 focus-visible:ring-offset-2 rounded-2xl group"
             onclick="toggleFaq(this)"
             aria-expanded="false"
+            aria-controls="faq-ans-6"
           >
             <span class="font-semibold text-brand-900 text-base leading-snug group-hover:text-brand-700 transition-colors duration-200">
               Você trabalha com nutrição esportiva para atletas?
             </span>
-            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200">
+            <span class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors duration-200" aria-hidden="true">
               <svg class="w-4 h-4 text-brand-700 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
               </svg>
             </span>
           </button>
-          <div class="accordion-content">
+          <div id="faq-ans-6" role="region" aria-labelledby="faq-btn-6" class="accordion-content">
             <div class="accordion-inner">
               <div class="px-6 pb-5 pt-0">
                 <div class="w-full h-px bg-brand-100 mb-4"></div>
@@ -556,9 +640,9 @@
 
       <!-- FAQ CTA -->
       <div class="mt-10 text-center section-animate">
-        <p class="text-brand-700 text-sm mb-4">Ainda tem dúvidas? Fala comigo direto no WhatsApp!</p>
+        <p class="text-brand-800 text-sm mb-4">Ainda tem dúvidas? Fala comigo direto no WhatsApp!</p>
         <a href="https://wa.me/5562992717766" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2.5 bg-wa text-white font-semibold text-sm px-6 py-3.5 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all duration-200">
+           class="inline-flex items-center gap-2.5 bg-wa text-white font-semibold text-sm px-6 py-3.5 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wa focus-visible:ring-offset-2 transition-all duration-200">
           <img src="assets/icon-whatsapp.svg" alt="" class="w-4 h-4" />
           Enviar mensagem
         </a>
@@ -574,8 +658,8 @@
 
       <!-- Contact Info -->
       <div class="flex-1 max-w-sm section-animate">
-        <p class="text-xs font-semibold tracking-[0.1em] uppercase text-brand-600 mb-3">Entre em contato</p>
-        <h2 class="font-bold text-[2.25rem] leading-[1.2] text-brand-900 mb-4">
+        <p class="text-xs font-bold tracking-[0.12em] uppercase text-brand-700 mb-3">Entre em contato</p>
+        <h2 class="font-bold text-3xl sm:text-4xl leading-[1.2] text-brand-900 mb-4">
           Pronto para começar sua jornada?
         </h2>
         <p class="text-brand-800 text-base leading-relaxed mb-8">
@@ -585,36 +669,46 @@
         <!-- Contact Details -->
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-3">
-            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center">
+            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center" aria-hidden="true">
               <img src="assets/icon-phone.svg" alt="" class="w-4 h-4" />
             </div>
-            <span class="text-brand-800 text-sm">(62) 99271-7766</span>
+            <a href="tel:+5562992717766" class="text-brand-800 hover:text-brand-700 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 rounded">(62) 99271-7766</a>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center">
+            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center" aria-hidden="true">
               <img src="assets/icon-email.svg" alt="" class="w-4 h-4" />
             </div>
-            <span class="text-brand-800 text-sm">nutriluisageovanna@icloud.com</span>
+            <a href="mailto:nutriluisageovanna@icloud.com" class="text-brand-800 hover:text-brand-700 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700 rounded">nutriluisageovanna@icloud.com</a>
           </div>
           <div class="flex items-center gap-3">
-            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center">
+            <div class="flex-shrink-0 w-9 h-9 bg-brand-200 rounded-lg flex items-center justify-center" aria-hidden="true">
               <img src="assets/icon-location.svg" alt="" class="w-4 h-4" />
             </div>
-            <span class="text-brand-800 text-sm">Anápolis, GO</span>
+            <span class="text-brand-800 text-sm font-medium">Anápolis, GO</span>
           </div>
         </div>
       </div>
 
       <!-- Contact Form -->
       <div class="flex-1 max-w-lg w-full section-animate" style="animation-delay:0.1s">
-        <div class="bg-white rounded-2xl shadow-xl p-8 border border-brand-100">
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-brand-200/80">
           <form id="contact-form" novalidate>
+
+            <!-- Error message container (accessible inline banner) -->
+            <div id="form-error" role="alert" aria-live="polite" class="hidden mb-5 py-2 px-3 bg-red-50 text-red-800 text-sm flex items-center gap-2 rounded">
+              <svg class="w-4 h-4 flex-shrink-0 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <path stroke-linecap="round" stroke-width="2" d="M12 8v4m0 4h.01"/>
+              </svg>
+              <span id="form-error-text">Por favor, preencha os campos obrigatórios.</span>
+            </div>
 
             <div class="flex flex-col gap-5">
               <!-- Nome -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-brand-800" for="nome">
-                  Nome <span class="text-brand-500">*</span>
+                <label class="text-sm font-semibold text-brand-900" for="nome">
+                  Nome <span class="text-brand-700" aria-hidden="true">*</span>
+                  <span class="sr-only">(obrigatório)</span>
                 </label>
                 <input
                   type="text"
@@ -622,14 +716,16 @@
                   name="nome"
                   placeholder="Seu nome completo"
                   required
-                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400"
+                  aria-required="true"
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-transparent transition-all duration-200 hover:border-brand-400"
                 />
               </div>
 
               <!-- Telefone -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-brand-800" for="telefone">
-                  Telefone / WhatsApp <span class="text-brand-500">*</span>
+                <label class="text-sm font-semibold text-brand-900" for="telefone">
+                  Telefone / WhatsApp <span class="text-brand-700" aria-hidden="true">*</span>
+                  <span class="sr-only">(obrigatório)</span>
                 </label>
                 <input
                   type="tel"
@@ -637,46 +733,47 @@
                   name="telefone"
                   placeholder="(00) 00000-0000"
                   required
-                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400"
+                  aria-required="true"
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-transparent transition-all duration-200 hover:border-brand-400"
                 />
               </div>
 
               <!-- Email -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-brand-800" for="email">
-                  E-mail <span class="text-brand-400 text-xs font-normal">(opcional)</span>
+                <label class="text-sm font-semibold text-brand-900" for="email">
+                  E-mail <span class="text-brand-600 text-xs font-normal">(opcional)</span>
                 </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   placeholder="seu@email.com"
-                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400"
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-transparent transition-all duration-200 hover:border-brand-400"
                 />
               </div>
 
               <!-- Mensagem -->
               <div class="flex flex-col gap-1.5">
-                <label class="text-sm font-medium text-brand-800" for="mensagem">Mensagem</label>
+                <label class="text-sm font-semibold text-brand-900" for="mensagem">Mensagem</label>
                 <textarea
                   id="mensagem"
                   name="mensagem"
                   rows="4"
                   placeholder="Conte um pouco sobre seus objetivos..."
-                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all duration-200 hover:border-brand-400 resize-none"
+                  class="w-full px-4 py-3 rounded-xl border border-brand-300 bg-white text-brand-900 text-sm placeholder:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-transparent transition-all duration-200 hover:border-brand-400 resize-none"
                 ></textarea>
               </div>
 
               <!-- Submit Button -->
               <button
                 type="submit"
-                class="w-full flex items-center justify-center gap-2.5 bg-wa text-white font-semibold text-base py-4 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] transition-all duration-200 mt-1"
+                class="w-full flex items-center justify-center gap-2.5 bg-wa text-white font-semibold text-base py-4 rounded-xl shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wa focus-visible:ring-offset-2 transition-all duration-200 mt-1"
               >
-                <img src="assets/icon-whatsapp.svg" alt="" class="w-5 h-5" />
+                <img src="assets/icon-whatsapp.svg" alt="" class="w-5 h-5" aria-hidden="true" />
                 Enviar via WhatsApp
               </button>
 
-              <p class="text-brand-500 text-xs text-center">
+              <p class="text-brand-700 text-xs text-center">
                 Ao enviar, você será redirecionado ao WhatsApp com sua mensagem pronta.
               </p>
             </div>
@@ -699,64 +796,67 @@
         <!-- Brand Column -->
         <div class="flex flex-col gap-4 min-w-[200px]">
           <div class="flex items-center gap-2">
-            <div class="bg-brand-700 w-8 h-8 rounded-full flex items-center justify-center">
-              <img src="assets/icon-logo2.svg" alt="" class="w-3.5 h-3.5" />
-            </div>
+            
             <span class="font-semibold text-white text-sm">Luísa Geovanna Nutricionista</span>
           </div>
-          <p class="text-brand-400 text-sm leading-relaxed max-w-[220px]">
+          <p class="text-brand-300 text-sm leading-relaxed max-w-[220px]">
             Nutrição personalizada para uma vida mais saudável e equilibrada.
           </p>
-          <!-- Social Links -->
+          <!-- Social Links (44x44px touch targets) -->
           <div class="flex items-center gap-3 mt-1">
-            <a href="https://instagram.com/luisageovanna.nutri" aria-label="Instagram" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+            <a href="https://instagram.com/luisageovanna.nutri" target="_blank" rel="noopener" aria-label="Instagram da Luísa Geovanna" class="w-11 h-11 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 transition-colors duration-200">
               <img src="assets/icon-instagram.svg" alt="" class="w-[18px] h-[18px]" />
             </a>
-            <a href="mailto:nutriluisageovanna@icloud.com" aria-label="E-mail" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
-              <img src="assets/icon-email.svg" alt="" class="w-[18px] h-[18px]" />
+            <a href="mailto:nutriluisageovanna@icloud.com" aria-label="Enviar e-mail para Luísa Geovanna" class="w-11 h-11 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 transition-colors duration-200">
+              <img src="assets/icon-footer-email.svg" alt="" class="w-[18px] h-[18px]" />
             </a>
-            <a href="tel:+5562992717766" aria-label="Telefone" class="w-9 h-9 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 transition-colors duration-200">
+            <a href="tel:+5562992717766" aria-label="Ligar para o consultório" class="w-11 h-11 bg-brand-900 rounded-lg flex items-center justify-center hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 transition-colors duration-200">
               <img src="assets/icone-telefone.svg" alt="" class="w-[18px] h-[18px]" />
             </a>
           </div>
         </div>
 
         <!-- Navigation Column -->
-        <div class="flex flex-col gap-3">
+        <nav class="flex flex-col gap-3" aria-label="Navegação secundária no rodapé">
           <p class="text-white font-semibold text-sm mb-1">Navegação</p>
-          <a href="#inicio"   class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Início</a>
-          <a href="#sobre"    class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Sobre</a>
-          <a href="#servicos" class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Serviços</a>
-          <a href="#faq"      class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Dúvidas</a>
-          <a href="#contato"  class="text-brand-400 text-sm hover:text-brand-300 transition-colors duration-200">Contato</a>
-        </div>
+          <a href="#inicio"   class="text-brand-300 text-sm hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded py-0.5 transition-colors duration-200">Início</a>
+          <a href="#sobre"    class="text-brand-300 text-sm hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded py-0.5 transition-colors duration-200">Sobre</a>
+          <a href="#servicos" class="text-brand-300 text-sm hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded py-0.5 transition-colors duration-200">Serviços</a>
+          <a href="#faq"      class="text-brand-300 text-sm hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded py-0.5 transition-colors duration-200">Dúvidas</a>
+          <a href="#contato"  class="text-brand-300 text-sm hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded py-0.5 transition-colors duration-200">Contato</a>
+        </nav>
 
         <!-- Contact Column -->
         <div class="flex flex-col gap-3">
           <p class="text-white font-semibold text-sm mb-1">Contato</p>
           <div class="flex items-center gap-2">
-            <img src="assets/icon-footer-phone.svg" alt="" class="w-3.5 h-3.5 opacity-60" />
-            <span class="text-brand-400 text-sm">(62) 99271-7766</span>
+            <img src="assets/icon-footer-phone.svg" alt="" class="w-3.5 h-3.5" aria-hidden="true" />
+            <a href="tel:+5562992717766" class="text-brand-300 hover:text-white text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded transition-colors">(62) 99271-7766</a>
           </div>
           <div class="flex items-center gap-2">
-            <img src="assets/icon-footer-email.svg" alt="" class="w-3.5 h-3.5 opacity-60" />
-            <span class="text-brand-400 text-sm">nutriluisageovanna@icloud.com</span>
+            <img src="assets/icon-footer-email.svg" alt="" class="w-3.5 h-3.5" aria-hidden="true" />
+            <a href="mailto:nutriluisageovanna@icloud.com" class="text-brand-300 hover:text-white text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded transition-colors">nutriluisageovanna@icloud.com</a>
           </div>
           <div class="flex items-center gap-2">
-            <img src="assets/icon-crn.svg" alt="" class="w-3.5 h-3.5 opacity-60" />
-            <span class="text-brand-400 text-sm">CRN: 25149</span>
+            <img src="assets/icon-crn.svg" alt="" class="w-3.5 h-3.5" aria-hidden="true" />
+            <span class="text-brand-300 text-sm">CRN: 25149</span>
           </div>
         </div>
 
       </div>
 
       <!-- Footer Bottom -->
-      <div class="border-t border-brand-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-brand-500 text-xs">© 2026 Luísa Geovanna. Todos os direitos reservados.</p>
-        <p class="text-brand-600 text-xs">Nutrição personalizada com cuidado e ciência.</p>
-      </div>
+      <div class="border-t border-brand-900 pt-6 flex flex-row items-center justify-center gap-3">
+  <p class="text-brand-400 text-xs">
+    © 2026 Luísa Geovanna. Todos os direitos reservados.
+  </p>
 
-    </div>
+  <span class="text-brand-400 text-xs">|</span>
+
+  <p class="text-brand-300 text-xs font-medium">
+    Desenvolvido por Torry.
+  </p>
+</div>
   </footer>
 
 
@@ -778,6 +878,8 @@
 
     hamburger.addEventListener('click', () => {
       menuOpen = !menuOpen;
+      hamburger.setAttribute('aria-expanded', String(menuOpen));
+      hamburger.setAttribute('aria-label', menuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação');
       mobileMenu.classList.toggle('open', menuOpen);
       hamOpen.classList.toggle('hidden', menuOpen);
       hamClose.classList.toggle('hidden', !menuOpen);
@@ -785,6 +887,8 @@
 
     function closeMobileMenu() {
       menuOpen = false;
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Abrir menu de navegação');
       mobileMenu.classList.remove('open');
       hamOpen.classList.remove('hidden');
       hamClose.classList.add('hidden');
@@ -829,43 +933,83 @@
 
 
     /* ---- Scroll-triggered animations ---- */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.section-animate, .stagger-children').forEach(el => observer.observe(el));
+
+      // Trigger hero immediately
+      setTimeout(() => {
+        document.querySelectorAll('#inicio .section-animate').forEach(el => el.classList.add('visible'));
+      }, 100);
+    } else {
+      document.querySelectorAll('.section-animate, .stagger-children').forEach(el => el.classList.add('visible'));
+    }
+
+
+    /* ---- WhatsApp Form Submit (Acessível, sem alert bloqueante) ---- */
+    const contactForm   = document.getElementById('contact-form');
+    const formError     = document.getElementById('form-error');
+    const formErrorText = document.getElementById('form-error-text');
+    const inputNome     = document.getElementById('nome');
+    const inputTelefone = document.getElementById('telefone');
+
+    // Limpar estados de erro ao digitar
+    [inputNome, inputTelefone].forEach(input => {
+      input.addEventListener('input', () => {
+        input.removeAttribute('aria-invalid');
+        input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+        if (!inputNome.value.trim() && !inputTelefone.value.trim()) {
+          formError.classList.add('hidden');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    });
 
-    document.querySelectorAll('.section-animate, .stagger-children').forEach(el => observer.observe(el));
-
-    // Trigger hero immediately
-    setTimeout(() => {
-      document.querySelectorAll('#inicio .section-animate').forEach(el => el.classList.add('visible'));
-    }, 100);
-
-
-    /* ---- WhatsApp Form Submit ---- */
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const nome     = document.getElementById('nome').value.trim();
-      const telefone = document.getElementById('telefone').value.trim();
+      const nome     = inputNome.value.trim();
+      const telefone = inputTelefone.value.trim();
       const mensagem = document.getElementById('mensagem').value.trim();
 
-      if (!nome || !telefone) {
-        alert('Por favor, preencha nome e telefone.');
+      let hasError = false;
+
+      if (!nome) {
+        inputNome.setAttribute('aria-invalid', 'true');
+        inputNome.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+        hasError = true;
+      }
+
+      if (!telefone) {
+        inputTelefone.setAttribute('aria-invalid', 'true');
+        inputTelefone.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+        hasError = true;
+      }
+
+      if (hasError) {
+        formErrorText.textContent = 'Por favor, preencha os campos obrigatórios destacadas acima (Nome e Telefone/WhatsApp).';
+        formError.classList.remove('hidden');
+        (nome ? inputTelefone : inputNome).focus();
         return;
       }
 
+      formError.classList.add('hidden');
       const msg = `Olá, Luísa! Me chamo ${nome}${telefone ? ` e meu telefone é ${telefone}` : ''}.${mensagem ? ` ${mensagem}` : ' Gostaria de agendar uma consulta.'}`;
       const url = `https://wa.me/5562992717766?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
+      window.open(url, '_blank', 'noopener,noreferrer');
     });
 
 
     /* ---- Phone mask ---- */
-    document.getElementById('telefone').addEventListener('input', function() {
+    inputTelefone.addEventListener('input', function() {
       let v = this.value.replace(/\D/g, '');
       if (v.length <= 10) {
         v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
